@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "motion/react";
 import IntroOverlay from "./components/IntroOverlay.jsx";
 import HomePage from "./pages/HomePage.jsx";
 import ChatPage from "./pages/ChatPage.jsx";
@@ -10,6 +11,7 @@ export default function App() {
   const [candidate, setCandidate] = useState(null);
   const [sessionId, setSessionId] = useState(null);
   const [opening, setOpening] = useState(null);
+  const [homeKey, setHomeKey] = useState(0);
 
   useEffect(() => {
     let mounted = true;
@@ -35,6 +37,7 @@ export default function App() {
   function goHome() {
     setView("home");
     setOpening(null);
+    setHomeKey((k) => k + 1);
   }
 
   return (
@@ -43,11 +46,22 @@ export default function App() {
         <IntroOverlay ready={assetsReady} onStart={() => setShowIntro(false)} />
       )}
 
-      {view === "home" ? (
-        <HomePage onStart={handleStart} />
-      ) : (
-        <ChatPage candidate={candidate} sessionId={sessionId} opening={opening} onHome={goHome} />
-      )}
+      <HomePage key={homeKey} onStart={handleStart} />
+
+      <AnimatePresence>
+        {view === "chat" && (
+          <motion.div
+            key="chat"
+            initial={{ y: "100%" }}
+            animate={{ y: 0 }}
+            exit={{ y: "100%" }}
+            transition={{ duration: 0.5, ease: "easeInOut" }}
+            className="fixed inset-0 z-40"
+          >
+            <ChatPage candidate={candidate} sessionId={sessionId} opening={opening} onHome={goHome} />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }

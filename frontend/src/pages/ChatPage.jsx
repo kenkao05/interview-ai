@@ -46,7 +46,7 @@ export default function ChatPage({ candidate, sessionId, opening, onHome }) {
   }
 
   return (
-    <div className="relative min-h-screen flex flex-col bg-eggshell">
+    <div className="relative min-h-screen flex flex-col bg-ink text-eggshell">
       <ProgressBar current={questionCount} total={totalPlanned} />
       <ChatDock onHome={onHome} />
 
@@ -56,8 +56,8 @@ export default function ChatPage({ candidate, sessionId, opening, onHome }) {
             key={i}
             className={`p-4 rounded-2xl max-w-[80%] ${
               m.role === "interviewer"
-                ? "bg-white/70 border border-gold/40 self-start"
-                : "bg-ink text-eggshell ml-auto"
+                ? "bg-white/10 border border-gold/40 text-eggshell self-start"
+                : "bg-gold text-ink ml-auto"
             }`}
           >
             {m.content}
@@ -66,7 +66,7 @@ export default function ChatPage({ candidate, sessionId, opening, onHome }) {
         {loading && <TypingIndicator />}
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 p-4 bg-eggshell/90 backdrop-blur-md border-t border-gold/30">
+      <div className="fixed bottom-0 left-0 right-0 p-4 bg-ink/90 backdrop-blur-md border-t border-gold/30">
         <div className="max-w-2xl mx-auto flex gap-2">
           <input
             value={input}
@@ -74,12 +74,12 @@ export default function ChatPage({ candidate, sessionId, opening, onHome }) {
             onKeyDown={(e) => e.key === "Enter" && handleSend()}
             disabled={loading}
             placeholder="Type your response…"
-            className="flex-1 border border-gold/50 rounded-full px-5 py-3 bg-white/80 focus:outline-none"
+            className="flex-1 border border-gold/50 rounded-full px-5 py-3 bg-white/10 text-eggshell placeholder:text-eggshell/40 focus:outline-none"
           />
           <button
             onClick={handleSend}
             disabled={loading}
-            className="border-2 border-gold rounded-full px-6 py-3 bg-ink text-eggshell disabled:opacity-50"
+            className="border-2 border-gold rounded-full px-6 py-3 bg-gold text-ink disabled:opacity-50"
           >
             Send
           </button>

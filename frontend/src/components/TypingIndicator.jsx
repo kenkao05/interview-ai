@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 
-// Typing dots for the first ~7s, then swaps to a "still thinking" message so a
-// Render cold start (10-30s) doesn't read as a frozen app. See PRD Section 6.
 export default function TypingIndicator() {
   const [stillThinking, setStillThinking] = useState(false);
 
@@ -11,7 +9,7 @@ export default function TypingIndicator() {
   }, []);
 
   if (stillThinking) {
-    return <p className="text-ink/50 italic text-sm">Still thinking…</p>;
+    return <p className="text-eggshell/50 italic text-sm">Still thinking…</p>;
   }
 
   return (
