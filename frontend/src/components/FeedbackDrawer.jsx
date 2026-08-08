@@ -4,7 +4,6 @@ export default function FeedbackDrawer({ feedback, open, onToggle, onDrawerState
   if (!feedback) return null;
 
   function handleDragEnd(event, info) {
-    // If dragged down far enough, collapse to peek. Otherwise snap open.
     if (info.offset.y > 100) {
       onDrawerStateChange(false);
     } else {
@@ -14,7 +13,7 @@ export default function FeedbackDrawer({ feedback, open, onToggle, onDrawerState
 
   return (
     <>
-      {open && <div className="fixed inset-0 bg-black/30 z-30" />}
+      {open && <div className="fixed inset-0 bg-black/50 z-30" />}
       <motion.div
         drag="y"
         dragConstraints={{ top: 0, bottom: 300 }}
@@ -23,14 +22,14 @@ export default function FeedbackDrawer({ feedback, open, onToggle, onDrawerState
         initial={{ y: "100%" }}
         animate={{ y: open ? 0 : "88%" }}
         transition={{ type: "spring", stiffness: 200, damping: 26 }}
-        className="fixed bottom-0 left-0 right-0 z-40 bg-white/80 backdrop-blur-lg border-t-2 border-gold rounded-t-3xl p-6 max-h-[85vh] overflow-y-auto"
+        className="fixed bottom-0 left-0 right-0 z-40 bg-ink/95 backdrop-blur-lg border-t-2 border-gold rounded-t-3xl p-6 max-h-[85vh] overflow-y-auto text-eggshell"
       >
         <div
           onClick={onToggle}
           className="w-12 h-1.5 bg-gold/60 rounded-full mx-auto mb-4 cursor-pointer"
         />
         <h2 className="text-lg font-semibold mb-2">Summary</h2>
-        <p className="mb-4 text-ink/80">{feedback.summary}</p>
+        <p className="mb-4 text-eggshell/80">{feedback.summary}</p>
 
         <h3 className="text-gold font-medium mb-1">Strengths</h3>
         <ul className="list-disc list-inside mb-4 text-sm space-y-1">
