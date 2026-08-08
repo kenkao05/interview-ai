@@ -1,7 +1,7 @@
 // Wraps the shadcn-CLI-installed reactbits Dock component (see PRD Section 7 for
 // the install command). Chat page only, single Home button, offset from every
 // edge so it never touches a boundary.
-import { Dock } from "./reactbits/Dock.jsx"; // populated by shadcn CLI
+import Dock from "./Dock.jsx"; // populated by shadcn CLI
 import { HomeIcon } from "./icons.jsx";
 
 export default function ChatDock({ onHome }) {

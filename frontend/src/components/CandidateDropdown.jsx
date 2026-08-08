@@ -14,7 +14,7 @@ export default function CandidateDropdown({
       }}
       transition={{ type: "spring", stiffness: 260, damping: 26 }}
       className={`border-2 border-gold rounded-full bg-white/70 backdrop-blur-md px-5 py-3 text-ink shadow-sm
-        ${shrunk ? "fixed top-6 left-6 text-sm z-20" : "mx-auto block text-lg"}`}
+        ${shrunk ? "text-sm" : "text-lg"}`}
       value={selected?.member?.id || ""}
       onChange={(e) => {
         const c = candidates.find((c) => c.member.id === e.target.value);

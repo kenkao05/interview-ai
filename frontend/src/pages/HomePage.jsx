@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { LiquidEther } from "../components/reactbits/LiquidEther.jsx"; // shadcn CLI
+import LiquidEther from "../components/LiquidEther.jsx";
 import CandidateDropdown from "../components/CandidateDropdown.jsx";
 import ProfileCardPanel from "../components/ProfileCardPanel.jsx";
 import { sendInterviewTurn } from "../lib/api.js";
@@ -24,32 +24,37 @@ export default function HomePage({ onStart }) {
 
   return (
     <div className="relative min-h-screen overflow-hidden">
-      {/* Fixed background layer, z-index behind all content, pointer-events none */}
       <div className="fixed inset-0 -z-10 pointer-events-none">
-        <LiquidEther />
+        <LiquidEther colors={['#F5F1E8', '#C9A24B', '#afa7a7ff']} />
       </div>
 
-      <div className="relative flex flex-col items-center justify-center min-h-screen gap-10 px-6">
-        <h1 className="text-3xl font-semibold tracking-tight">AI Interview Agent</h1>
+      <div className="relative flex min-h-screen items-center justify-center gap-16 px-6">
+        <div className="flex flex-col items-start gap-6 max-w-md">
+          <h1 className="text-3xl font-semibold tracking-tight">AI Interview Agent</h1>
 
-        <CandidateDropdown
-          candidates={candidatesData.candidates}
-          selected={selected}
-          onSelect={setSelected}
-          shrunk={!!selected}
-        />
+          <CandidateDropdown
+            candidates={candidatesData.candidates}
+            selected={selected}
+            onSelect={setSelected}
+            shrunk={!!selected}
+          />
 
-        {selected && <ProfileCardPanel candidate={selected} />}
+          {selected && (
+            <button
+              onClick={handleStartInterview}
+              disabled={starting}
+              className="border-2 border-gold rounded-full px-8 py-3 bg-ink text-eggshell
+                hover:bg-gold hover:text-ink transition-colors disabled:opacity-50"
+            >
+              {starting ? "Starting…" : "Start Interview"}
+            </button>
+          )}
+        </div>
 
         {selected && (
-          <button
-            onClick={handleStartInterview}
-            disabled={starting}
-            className="border-2 border-gold rounded-full px-8 py-3 bg-ink text-eggshell
-              hover:bg-gold hover:text-ink transition-colors disabled:opacity-50"
-          >
-            {starting ? "Starting…" : "Start Interview"}
-          </button>
+          <div className="flex-shrink-0">
+            <ProfileCardPanel candidate={selected} />
+          </div>
         )}
       </div>
     </div>
