@@ -41,10 +41,6 @@ Minimum 8 questions, hard-capped at 12, spanning at least 4 distinct curriculum 
 
 Full reasoning behind every choice above is in `PRD.md`.
 
-## Out of scope (by design)
-
-Voice interaction, user authentication, persistent accounts, long-term cross-session history, mobile apps. The spec deliberately excluded these to keep the build achievable in the time window — see `PRD.md` Section 2.
-
 ## Local setup
 
 See `PRD.md` Section 7 for the full step-by-step setup guide, including API key setup and the shadcn CLI commands needed to install the third-party UI components.
