@@ -21,10 +21,9 @@ export default function FeedbackDrawer({ feedback, open, onToggle, onDrawerState
         dragElastic={0.1}
         onDragEnd={handleDragEnd}
         initial={{ y: "100%" }}
-        animate={{ y: open ? "10%" : "99%" }}
+        animate={{ y: open ? 0 : "88%" }}
         transition={{ type: "spring", stiffness: 200, damping: 26 }}
-        className="fixed bottom-0 left-0 right-0 z-40 bg-white/80 backdrop-blur-lg
-          border-t-2 border-gold rounded-t-3xl p-6 pb-40 max-h-[125vh] overflow-y-auto"
+        className="fixed bottom-0 left-0 right-0 z-40 bg-white/80 backdrop-blur-lg border-t-2 border-gold rounded-t-3xl p-6 max-h-[85vh] overflow-y-auto"
       >
         <div
           onClick={onToggle}
