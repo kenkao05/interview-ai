@@ -7,20 +7,23 @@ export default function App() {
   const [view, setView] = useState("home");
   const [candidate, setCandidate] = useState(null);
   const [sessionId, setSessionId] = useState(null);
+  const [opening, setOpening] = useState(null);
 
-  function handleStart(selectedCandidate, newSessionId) {
+  function handleStart(selectedCandidate, newSessionId, openingResult) {
     setCandidate(selectedCandidate);
     setSessionId(newSessionId);
+    setOpening(openingResult);
     setView("chat");
   }
 
   function goHome() {
     setView("home");
+    setOpening(null);
   }
 
   return view === "home" ? (
     <HomePage onStart={handleStart} />
   ) : (
-    <ChatPage candidate={candidate} sessionId={sessionId} onHome={goHome} />
+    <ChatPage candidate={candidate} sessionId={sessionId} opening={opening} onHome={goHome} />
   );
 }

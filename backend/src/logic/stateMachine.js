@@ -33,9 +33,6 @@ export async function advanceTurn(session, candidateMessage) {
   session.transcript.push({ role: "interviewer", content: reply });
   session.questionsAskedCount += 1;
 
-  // Simple heuristic: advance the plan pointer unless this looks like a probe
-  // (kept intentionally simple — the LLM signals a probe via a leading marker;
-  // in a production implementation this should be tightened with a structured output call).
   const isProbe = reply.trim().startsWith("[PROBE]");
   if (!isProbe) {
     session.currentIndex += 1;
@@ -44,7 +41,30 @@ export async function advanceTurn(session, candidateMessage) {
     session.probesUsedThisQuestion += 1;
   }
 
-  return { reply: reply.replace(/^\[PROBE\]\s*/, ""), done: false };
+  // Re-check right after advancing — the plan may have just been completed by this turn.
+  const nowExhausted = !isProbe && session.currentIndex >= session.plan.length;
+  const nowAtCeiling = session.questionsAskedCount >= CEILING_QUESTIONS;
+
+  if (nowExhausted || nowAtCeiling) {
+    const feedback = await generateFeedback(session);
+    session.done = true;
+    session.feedback = feedback;
+    return {
+      reply: reply.replace(/^\[PROBE\]\s*/, ""),
+      done: true,
+      feedback,
+      currentQuestion: session.currentIndex,
+      totalPlanned: session.plan.length,
+    };
+  }
+
+  return {
+    reply: reply.replace(/^\[PROBE\]\s*/, ""),
+    done: false,
+    isProbe,
+    currentQuestion: session.currentIndex + 1,
+    totalPlanned: session.plan.length,
+  };
 }
 
 export async function startInterview(session) {
@@ -54,5 +74,10 @@ export async function startInterview(session) {
   ]);
   session.transcript.push({ role: "interviewer", content: opening });
   session.questionsAskedCount += 1;
-  return { reply: opening, done: false };
+  return {
+    reply: opening,
+    done: false,
+    currentQuestion: session.currentIndex + 1,
+    totalPlanned: session.plan.length,
+  };
 }

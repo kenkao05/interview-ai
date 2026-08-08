@@ -15,8 +15,8 @@ export default function HomePage({ onStart }) {
     setStarting(true);
     const sessionId = crypto.randomUUID();
     try {
-      await sendInterviewTurn({ sessionId, candidate: selected });
-      onStart(selected, sessionId);
+      const result = await sendInterviewTurn({ sessionId, candidate: selected });
+      onStart(selected, sessionId, result); // pass the real opening question through
     } catch (err) {
       console.error(err);
       setStarting(false);

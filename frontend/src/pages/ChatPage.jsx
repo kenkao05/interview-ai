@@ -5,13 +5,14 @@ import TypingIndicator from "../components/TypingIndicator.jsx";
 import FeedbackDrawer from "../components/FeedbackDrawer.jsx";
 import { sendInterviewTurn } from "../lib/api.js";
 
-export default function ChatPage({ candidate, sessionId, onHome }) {
+export default function ChatPage({ candidate, sessionId, opening, onHome }) {
   const [messages, setMessages] = useState([
-    { role: "interviewer", content: "Welcome. Let's begin your interview." },
+    { role: "interviewer", content: opening?.reply || "Welcome. Let's begin your interview." },
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const [questionCount, setQuestionCount] = useState(1);
+  const [questionCount, setQuestionCount] = useState(opening?.currentQuestion || 1);
+  const [totalPlanned, setTotalPlanned] = useState(opening?.totalPlanned || 8);
   const [feedback, setFeedback] = useState(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -25,11 +26,13 @@ export default function ChatPage({ candidate, sessionId, onHome }) {
     try {
       const result = await sendInterviewTurn({ sessionId, message: userMessage });
       setMessages((m) => [...m, { role: "interviewer", content: result.reply }]);
-      setQuestionCount((c) => c + 1);
+
+      if (result.currentQuestion) setQuestionCount(result.currentQuestion);
+      if (result.totalPlanned) setTotalPlanned(result.totalPlanned);
 
       if (result.done) {
         setFeedback(result.feedback);
-         setDrawerOpen(true);
+        setDrawerOpen(true);
       }
     } catch (err) {
       console.error(err);
@@ -44,7 +47,7 @@ export default function ChatPage({ candidate, sessionId, onHome }) {
 
   return (
     <div className="relative min-h-screen flex flex-col bg-eggshell">
-      <ProgressBar current={questionCount} />
+      <ProgressBar current={questionCount} total={totalPlanned} />
       <ChatDock onHome={onHome} />
 
       <div className="flex-1 overflow-y-auto px-6 pt-24 pb-32 max-w-2xl mx-auto w-full space-y-4">
