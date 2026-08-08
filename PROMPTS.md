@@ -28,7 +28,7 @@ Running log of prompts used to plan and build the AI Interview Agent (PS2), in c
 
 11. "summarize the chat into an md file. add context about everything, the competition, the problem statement and all its details and requirements, what we're building, how we're building it, its default features, the pages, add the worth adding 3 features as well. all context. also make a separate section where all the prompts ive given are noted down so i can copy paste them into another prompts.md file later."
 
-*(Backend language decision: JavaScript, chosen after being asked "JavaScript vs TypeScript" and answering "whichever is best." Frontend decision: React, chosen explicitly over plain HTML/CSS/JS "because i have some design ideas.")*
+_(Backend language decision: JavaScript, chosen after being asked "JavaScript vs TypeScript" and answering "whichever is best." Frontend decision: React, chosen explicitly over plain HTML/CSS/JS "because i have some design ideas.")_
 
 ---
 
@@ -89,3 +89,91 @@ Running log of prompts used to plan and build the AI Interview Agent (PS2), in c
 - Center-top translucent progress bar with gold accent, "Question N of ~8" (prompt 15).
 - Feedback drawer: auto-slide-up on `done:true`, semi-translucent modal backdrop, drag-only dismiss so chat stays reachable underneath (prompts 15, 16).
 - shadcn CLI as the install method for all three reactbits components (prompt 16).
+
+### Debugging & Build Session (continuation of PROMPTS.md)
+
+27. "trying to run frontend. [plugin:vite:import-analysis] Failed to resolve import '../components/reactbits/LiquidEther.jsx' from 'src/pages/HomePage.jsx'. Does the file exist?" [error trace pasted]
+
+28. [terminal output pasted: `find`/`grep` commands showing Dock.jsx contents, incorrect `find frontend/src` path]
+
+29. [terminal output pasted: corrected `find src -iname "*liquidether*"` result]
+
+30. "[postcss error pasted] The `border-border` class does not exist..."
+
+31. [terminal output pasted: `tailwind.config.js`, `src/index.css` contents]
+
+32. "everything is just white. Uncaught SyntaxError: The requested module '/src/components/Dock.jsx' does not provide an export named 'Dock' (at ChatDock.jsx:4:10) [favicon 404 also pasted]"
+
+33. [terminal output pasted: grep results for `export default` and import statements across components]
+
+34. [terminal output pasted: `ChatDock.jsx` import lines]
+
+35. [image + PDF uploaded: screenshot of home page, ProfileCard react-bits integration doc] "everything is just white... 1. profile card isnt working like it should. 2. firstly the purple ether is obnoxious, where do i change its color 3. the profile card is supposed to show on the center right and the dropdown moves to center left not top left corner. i have not touched the backend yet."
+
+36. [HomePage.jsx uploaded] [terminal grep output for LiquidEther/colors]
+
+37. "now what change do i need to make before git pushing? where do i and what do i put in the gitognore files?"
+
+38. [git status output pasted]
+
+39. "how do i add all the changes i made to git like downloading the components and all the frontend changes such that my teammates can directly download the files and not need to manually download the shadcn componenets themselves just like the two flags you raised?"
+
+40. [git status output pasted, confirming staged files]
+
+41. "i put a groq key in but still getting errors and not moving to second page [THREE.Color hex error + 500 error console output pasted]"
+
+42. [backend terminal log pasted: Groq 401 invalid_api_key, Gemini 400 system_instruction error]
+
+43. [geminiClient.js uploaded] "groq key was just made right now and it ok."
+
+44. [chat transcript screenshots pasted, showing interview in progress] "what kinda answers do i choose to check whether this is working fine or not"
+
+45. "just tell me what to type next. nothing extra. after the interview tell me how its doing. [transcript continuation pasted]"
+
+46. [transcript continuation pasted, repeated across several turns feeding back interviewer responses]
+
+47. "Question 9 of ~8 [continuing transcript]"
+
+48. [3 images uploaded: feedback summary screenshots, drawer-drag-too-far screenshot] "make it so that this summary box isnt above to move up like shown in the third photo. only down fully but leaves the line so when thats clicked it pops up again. also how did the internet ai agent go. anything broken?"
+
+49. [PROJECT_CONTEXT.md, CHAT_SUMMARY.md, FeedbackDrawer.jsx uploaded] "read these to know if the questions going above the limit are on purpose as discussed."
+
+50. [image uploaded: drawer over-extension screenshot] "i want it to fully go down such that only the middle golden line is visible and the chat becomes focused. when user clicks on the line or drags the summary back up then the chat behind goes dark like it does. also theres a little bit of extra drag available when i drag the box up which shows the chat so can we extend the summary box length wise downward so that extra gap doesnt expose the chat."
+
+51. [image + ChatPage.jsx uploaded] "nothing seems to have changed. the summary box still doesnt go fully down."
+
+52. "i want the summary to auto open. if i move it down then it should stay there which it isnt... it doesnt go down at all now."
+
+53. "so summary is auto opening which is good. but after dragging it down, it doesnt come back up. need it to be just a little bit above so i can click the golden bar. how do i do that. again. short simple answers."
+
+54. "need to elongate it downwards as well. how"
+
+55. [image uploaded: over-extended drawer with short summary] "it is coming up much more than it needs to. how do i make it so that it only opens upto the last line no matter what the summary is (because different interviews will have different lengths of summary.)"
+
+56. [shit.md uploaded — teammate's unrelated Next.js/TypeScript TrueFocus + page.tsx code] "what is all this. read the whole file and tell me what these files are"
+
+57. "im not asking if i should paste this directly in. my teammate sent me this. what do those files do. i want to incorporate that stuff into our files. so read what each file does and tell me what they do first."
+
+58. [GradualBlur react-bits doc pasted] "ok i want to incorporate that into my homepage. also keep the color screen but remake the home page such that theres more content on the homepage. read the prd and make the homepage with reference to it being an interview ai agent for abtalks ai cohort or whatever it was and add more shit to the homepage because it looks blank af. what files do you need right now to make the new home page. also forget about the dropdown animating to the left and all of that. revamp it all to be simple but also have more shit. same color scheme and make sure it has the liquid ether background as well."
+
+59. [TrueFocus react-bits doc + HomePage.jsx, CandidateDropdown.jsx, ProfileCardPanel.jsx uploaded] "not gradual blue but true focus. my bad. i dont want gradual blur. idea is to have the name of the website in the center in big font and be able to do the true focus play on that."
+
+60. "write a log of all the prompts ive given in this chat into an md file."
+
+---
+
+## What Was Implemented From This Log
+
+- Fixed relative import paths for LiquidEther and other misplaced/misnamed components (prompts 27–29).
+- Fixed missing Tailwind `theme.extend.colors` token mappings for shadcn-style CSS variables (`border-border`, etc.) that were referenced in `index.css` but never defined in `tailwind.config.js` (prompts 30–31).
+- Fixed default-vs-named export mismatches across `Dock.jsx` / `ChatDock.jsx` and `LiquidEther.jsx` / `HomePage.jsx` (prompts 32–34).
+- Reworked home page layout from edge-pinned to centered flex row, removed `fixed top-6 left-6` hardcoded positioning bug from `CandidateDropdown.jsx` that broke layout on candidate selection (prompt 35, and later corrections).
+- Changed LiquidEther `colors` prop away from default purple palette; later fixed an invalid 8-digit hex value (`#afa7a7ff`) causing a THREE.Color console error (prompts 35–36, 41).
+- `.gitignore` verification and confirmation `.env` was never committed to git history, before pushing reactbits components + shadcn config files that teammates need without a manual CLI install (prompts 37–40).
+- Diagnosed and fixed a real Gemini SDK bug in `geminiClient.js` — `systemInstruction` was passed as a raw string instead of the `{ role, parts }` object shape the SDK expects, plus moved it from `startChat()` to `getGenerativeModel()` (prompts 41–43).
+- Manually tested probe-then-continue logic, probe-replaces-question logic, and question cap enforcement by feeding deliberately vague answers through a live interview session (prompts 44–47).
+- Discovered and confirmed (via PROJECT_CONTEXT.md/CHAT_SUMMARY.md cross-check) a real bug: question counter exceeded the planned ~8 ceiling ("Question 10 of ~8"), meaning probes were being added rather than substituted — flagged as unresolved, pending `stateMachine.js` review (prompts 47, 49).
+- Rebuilt `ProfileCardPanel.jsx` to use Framer Motion cursor-tracked 3D tilt (`useMotionValue`/`useTransform`) instead of adopting the full react-bits `ProfileCard` component, to avoid its avatar/prop-shape mismatch with existing candidate data (earlier in session, carried forward).
+- Multiple iterations on `FeedbackDrawer.jsx` drag/peek behavior: fixed `dragConstraints` allowing drag above the open position, adjusted peek percentage, added `onDragEnd`-based state sync (drag position wasn't persisting because `animate` was bound to state, not drag position), then moved from a fixed-percentage/fixed-padding approach to content-based sizing (`max-h-[85vh]`, `y: 0` vs `y: "88%"`) so drawer height adapts to variable feedback-summary length instead of a hardcoded pixel/percent value (prompts 48, 50–55).
+- Read and explained an unrelated Next.js/TypeScript file a teammate sent (`shit.md`), distinguishing the reusable `TrueFocus` component from the non-portable `page.tsx` homepage it was bundled with (prompts 56–57).
+- Declined `GradualBlur` integration after clarification; integrated `TrueFocus` (JS/CSS variant, swapped `motion/react` → `framer-motion` to match existing dependency, retthemed to gold/ink) as a centered hero title, and rebuilt `HomePage.jsx` with added cohort-context content (tagline, program description, 3-step "how it works" section) pulled from PRD/PROJECT_CONTEXT source text; simplified `CandidateDropdown.jsx` by removing the shrink-and-relocate animation per updated instruction (prompts 58–59).
