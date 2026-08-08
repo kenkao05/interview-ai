@@ -5,10 +5,13 @@ candidate's real progress through the ABTalks AI Cohort, then produces structure
 feedback tied to specific curriculum days.
 
 ## Quick start
+
 See `PRD.md` Section 7 for the full setup guide.
 
 ## Live demo
+
 <fill in Render URL before submission>
 
 ## AI usage log
+
 See `PROMPTS.md`.

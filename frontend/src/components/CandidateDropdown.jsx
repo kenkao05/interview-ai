@@ -1,20 +1,7 @@
-import { motion } from "framer-motion";
-
-export default function CandidateDropdown({
-  candidates,
-  onSelect,
-  selected,
-  shrunk,
-}) {
+export default function CandidateDropdown({ candidates, onSelect, selected }) {
   return (
-    <motion.select
-      layout
-      animate={{
-        width: shrunk ? 220 : 480,
-      }}
-      transition={{ type: "spring", stiffness: 260, damping: 26 }}
-      className={`border-2 border-gold rounded-full bg-white/70 backdrop-blur-md px-5 py-3 text-ink shadow-sm
-        ${shrunk ? "text-sm" : "text-lg"}`}
+    <select
+      className="border-2 border-gold rounded-full bg-white/70 backdrop-blur-md px-5 py-3 text-ink shadow-sm text-lg w-full max-w-md"
       value={selected?.member?.id || ""}
       onChange={(e) => {
         const c = candidates.find((c) => c.member.id === e.target.value);
@@ -29,6 +16,6 @@ export default function CandidateDropdown({
           {c.member.name} — {c.member.jobRole}
         </option>
       ))}
-    </motion.select>
+    </select>
   );
 }
