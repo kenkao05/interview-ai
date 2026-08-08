@@ -29,7 +29,7 @@ export default function ChatPage({ candidate, sessionId, onHome }) {
 
       if (result.done) {
         setFeedback(result.feedback);
-        setDrawerOpen(true); // auto slide up
+         setDrawerOpen(true);
       }
     } catch (err) {
       console.error(err);
@@ -83,7 +83,12 @@ export default function ChatPage({ candidate, sessionId, onHome }) {
         </div>
       </div>
 
-      <FeedbackDrawer feedback={feedback} open={drawerOpen} />
+      <FeedbackDrawer
+        feedback={feedback}
+        open={drawerOpen}
+        onToggle={() => setDrawerOpen((o) => !o)}
+        onDrawerStateChange={setDrawerOpen}
+      />
     </div>
   );
 }

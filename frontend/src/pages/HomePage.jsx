@@ -25,7 +25,7 @@ export default function HomePage({ onStart }) {
   return (
     <div className="relative min-h-screen overflow-hidden">
       <div className="fixed inset-0 -z-10 pointer-events-none">
-        <LiquidEther colors={['#F5F1E8', '#C9A24B', '#afa7a7ff']} />
+        <LiquidEther colors={['#F5F1E8', '#C9A24B', '#afa7a7']} />
       </div>
 
       <div className="relative flex min-h-screen items-center justify-center gap-16 px-6">
