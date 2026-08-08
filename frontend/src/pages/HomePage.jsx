@@ -16,7 +16,7 @@ export default function HomePage({ onStart }) {
     const sessionId = crypto.randomUUID();
     try {
       const result = await sendInterviewTurn({ sessionId, candidate: selected });
-      onStart(selected, sessionId, result); // pass the real opening question through
+      onStart(selected, sessionId, result);
     } catch (err) {
       console.error(err);
       setStarting(false);
@@ -30,8 +30,7 @@ export default function HomePage({ onStart }) {
       </div>
 
       <div className="relative flex flex-col items-center px-6 py-20 gap-16 max-w-4xl mx-auto">
-        {/* Hero */}
-        <div className="flex flex-col items-center gap-6 text-center">
+        <div id="hero-focus" className="flex flex-col items-center gap-6 text-center">
           <TrueFocus
             sentence="AI INTERVIEW AGENT"
             manualMode={false}
@@ -51,7 +50,6 @@ export default function HomePage({ onStart }) {
           </p>
         </div>
 
-        {/* How it works */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full">
           <div className="border border-gold/40 rounded-2xl bg-white/60 backdrop-blur-md p-5 text-center">
             <h3 className="text-gold font-semibold mb-1">1. Select</h3>
@@ -67,7 +65,6 @@ export default function HomePage({ onStart }) {
           </div>
         </div>
 
-        {/* Candidate selection */}
         <div className="flex flex-col items-center gap-6 w-full">
           <CandidateDropdown
             candidates={candidatesData.candidates}
